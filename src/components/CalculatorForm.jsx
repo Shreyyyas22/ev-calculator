@@ -90,17 +90,32 @@ const CalculatorForm = ({ onResult, onReset }) => {
     console.log('Submitting flattened data:', flattenedData);
   
     try {
-      // Use the environment variable for the API URL
-      const response = await axios.post(process.env.REACT_APP_API_URL, flattenedData);
+      // Correctly configure API URL based on environment
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001/api/calculator/tco';
+
+      // Post the flattened data to the backend API
+      const response = await axios.post(apiUrl, flattenedData);
+
       console.log('Response from backend:', response.data);
       onResult(response.data);  // Pass the result to the parent component
     } catch (error) {
-      console.error('Error submitting form:', error.response ? error.response.data : error.message);
+      if (error.response) {
+        // The request was made and the server responded with a status code that falls out of the range of 2xx
+        console.error('Error response from backend:', error.response.data);
+        alert(`Error: ${error.response.data.message || 'An error occurred while processing your request.'}`);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('No response received:', error.request);
+        alert('Error: No response from the server. Please check your network or server status.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error setting up the request:', error.message);
+        alert(`Error: ${error.message}`);
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
-
   // Reset the form and errors
   const resetForm = () => {
     setFormData(initialFormData);  
