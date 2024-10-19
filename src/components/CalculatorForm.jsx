@@ -103,10 +103,10 @@ const CalculatorForm = ({ onResult, onReset }) => {
 
   // Reset the form and errors
   const resetForm = () => {
-    setFormData(initialFormData);  // Reset form data to initial values
-    setErrors({});  // Clear errors
+    setFormData(initialFormData);  
+    setErrors({});  
     if (onReset) {
-      onReset();  // Call the external onReset handler if passed from parent
+      onReset();  
     }
   };
 
