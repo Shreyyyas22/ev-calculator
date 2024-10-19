@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json()); // Parse JSON request bodies
 
 // CORS Configuration: Allow requests from localhost and Render's live frontend
-const allowedOrigins = ['http://localhost:5001', 'https://ev-calculator.onrender.com/'];
+const allowedOrigins = ['https://ev-calculator.onrender.com/', 'http://localhost:5001']; // Add your frontend domain
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -21,9 +21,8 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true // Optional: Allow credentials like cookies
+  credentials: true
 }));
-
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
