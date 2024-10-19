@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json()); // Parse JSON request bodies
 
 // CORS Configuration
-app.use(cors({ origin: 'http://localhost:3000' })); // Allow requests from localhost:3000
+app.use(cors({ origin: 'http://localhost:5001' })); // Allow requests from localhost:3000
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGO_URI)
 // Use the calculator routes
 app.use('/api/calculator', calculatorRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
