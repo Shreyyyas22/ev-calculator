@@ -11,7 +11,10 @@ const app = express();
 app.use(express.json()); // Parse JSON request bodies
 
 // CORS Configuration: Allow requests from localhost and Render's live frontend
-const allowedOrigins = ['https://ev-calculator.onrender.com/', 'http://localhost:5001']; // Add your frontend domain
+const allowedOrigins = [
+  'https://ev-calculator.onrender.com',  // Deployed frontend URL
+  'http://localhost:3000'  // Allow localhost for development
+];
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -23,6 +26,7 @@ app.use(cors({
   },
   credentials: true
 }));
+
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -34,9 +38,10 @@ mongoose.connect(process.env.MONGO_URI, {
 // Use the calculator routes
 app.use('/api/calculator', calculatorRoutes);
 
-// Serve static files from the React app (only if you're serving frontend from the same service)
+// Serve static files from the React app
 const __dirname = path.resolve();
 if (process.env.NODE_ENV === 'production') {
+  // Ensure the 'build' folder is served correctly in production
   app.use(express.static(path.join(__dirname, 'build')));
 
   // Serve index.html for any request that doesn't match an API route
@@ -46,7 +51,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Port Configuration
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000; // Port 5000 for development; Render assigns a port in production
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

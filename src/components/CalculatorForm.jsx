@@ -91,7 +91,7 @@ const CalculatorForm = ({ onResult, onReset }) => {
   
     try {
       // Correctly configure API URL based on environment
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001/api/calculator/tco';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/calculator/tco';
 
       // Post the flattened data to the backend API
       const response = await axios.post(apiUrl, flattenedData);
